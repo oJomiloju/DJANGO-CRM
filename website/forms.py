@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from .models import Record
 
+
 class SignUpForm(UserCreationForm):
 	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
 	first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
@@ -35,4 +36,19 @@ class SignUpForm(UserCreationForm):
 
 
 
+
 # Create Add Record Form
+class AddRecordForm(forms.ModelForm):
+    class_name = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder":"Class Name", "class":"form-control"}), label="")
+    professor = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder":"Professor", "class":"form-control"}), label="")
+    classroom = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder":"Class Room", "class":"form-control"}), label="")
+    days = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder":"Monday, Tuesday...", "class":"form-control"}), label="")
+    start_time = forms.TimeField(required=True, widget=forms.TimeInput(attrs={"placeholder":"Start Time", "class":"form-control"}), label="")
+    end_time = forms.TimeField(required=True, widget=forms.TimeInput(attrs={"placeholder":"End Time", "class":"form-control"}), label="")
+    credits = forms.DecimalField(required=True, widget=forms.NumberInput(attrs={"placeholder":"Credits", "class":"form-control"}), label="")
+    semester = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder":"Semester", "class":"form-control"}), label="")
+    description = forms.CharField(required=True, widget=forms.Textarea(attrs={"placeholder":"Description", "class":"form-control"}), label="")
+
+    class Meta:
+        model = Record
+        exclude = ("user",)

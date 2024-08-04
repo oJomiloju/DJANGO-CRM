@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %} 
+    <div class="card">
+        <div class="card-header">
+            Professor: {{class_record.professor}}
+        </div>
+        <div class="card-body">
+        <h5 class="card-title">{{class_record.class_name}}</h5>
+        <p class="card-text"><strong>ROOM: </strong> {{class_record.classroom}}</p>
+        <p class="card-text"><strong>DAYS: </strong> {{class_record.days}}</p>
+        <p class="card-text"><strong>CREDITS: </strong> {{class_record.credits}}</p>
+        <p class="card-text"><strong>TIME: </strong>{{class_record.start_time}} - {{record.end_time}}</p>
+        <p class="card-text"><strong>SEMESTER: </strong> {{class_record.semester}}</p>
+        <p class="card-text"><strong>DESCRIPTION: </strong>{{class_record.description}}</p>
+        </div>
+    </div>
+    <br>
+    <a href="#" class="btn btn-primary">Add Homework</a>
+    <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+    <a href="{% url 'delete_record' class_record.id %}" class="btn btn-primary">Remove Class</a>
+    <a href="{% url 'update_record' class_record.id %}" class="btn btn-primary">Update Class</a>
+{% endblock %}

@@ -1,8 +1,41 @@
 {% extends 'base.html' %}
-{% block content %}    
-<div class="container">
-    <h1 class="text-center">HOMEWORK HUB</h1>
-    <p class="text-center">Manage all your homework assignments here</p>
-    <p>TODO - Implement home page</p>
-</div>
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>CLASSES</h1>
+        {% if records %}
+            <table class="table table-striped table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">COURSE</th>
+                        <th scope="col">PROF</th>
+                        <th scope="col">ROOM</th>
+                        <th scope="col">DAYS</th>
+                        <th scope="col">TIME</th>
+                        <th scope="col">CREDITS</th>
+                        <th scope="col">SEM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td><a href="{% url 'record' record.id %}" class="text-decoration-none text-success">{{record.class_name}}</a></td>
+                        <td>{{record.professor}}</td>
+                        <td>{{record.classroom}}</td>
+                        <td>{{record.days}}</td>
+                        <td>{{record.start_time}} - {{record.end_time}}</td>
+                        <td>{{record.credits}}</td>
+                        <td>{{record.semester}}</td>
+                    </tr>
+                {% endfor%}
+                </tbody>
+            </table>
+        {% endif %}
+    {% else %}
+        <div class="container">
+            <h1 class="text-center">HOMEWORK HUB</h1>
+            <p class="text-center">Manage all your homework assignments here</p>
+            <p>TODO - Implement home page</p>
+        </div>
+    {% endif %}
+
 {% endblock %}
