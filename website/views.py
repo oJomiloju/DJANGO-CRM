@@ -77,6 +77,21 @@ def delete_record(request,pk):
           messages.success(request,"Must be logged in to delete class...")
           return redirect('home')
 
+def delete_homework(request,record_id,homework_id):
+     record = Record.objects.get(id=record_id)
+     if request.user.is_authenticated:
+          record = Record.objects.get(id=record_id)
+          homework = Homework.objects.get(id=homework_id,record=record)
+          if request.user.is_authenticated:
+               homework.delete()
+               messages.success(request, "Homework has been deleted successfully.")
+          else:
+               messages.error(request, "You must be logged in to delete homework.")
+    
+     return redirect('record', pk=record_id)
+
+
+
 def add_record(request):
      form = AddRecordForm(request.POST or None)
      if request.user.is_authenticated:
@@ -105,7 +120,29 @@ def update_record(request,pk):
      else:
           messages.success(request,"Must be Logged In")
           return redirect('home')
-          
+
+def update_homework(request, record_id, homework_id):
+    record = Record.objects.get(id=record_id)
+    homework = Homework.objects.get(id=homework_id,record=record)
+    
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = AddHomeworkForm(request.POST, instance=homework)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Homework has been updated successfully.")
+                return redirect('record', pk=record_id)
+            else:
+                messages.error(request, "There was an error updating the homework. Please check the form for errors.")
+        else:
+            form = AddHomeworkForm(instance=homework)
+    else:
+        messages.error(request, "You must be logged in to update homework.")
+        return redirect('home')
+    
+    return render(request, 'update_homework.html', {'form': form, 'record': record, 'homework': homework})
+
+
 
 def add_homework(request,record_id):
      record = Record.objects.get(id=record_id)
@@ -126,3 +163,6 @@ def add_homework(request,record_id):
           'form': form,
           'class_record': record
      })
+
+
+

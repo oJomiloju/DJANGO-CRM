@@ -27,9 +27,11 @@
                         <strong>{{ homework.title }}</strong>
                         <span class="badge badge-secondary ml-2">Due: {{ homework.due_date }}</span>
                     </div>
-                    <span class="badge badge-{{ homework.submission_status|yesno:'success,danger' }}">
-                        {% if homework.submission_status %}Submitted{% else %}Not Submitted{% endif %}
-                    </span>
+                    {% if homework.submission_status %}
+                        <p style="color: rgb(28, 121, 23)"><strong>Submitted</strong></p>
+                    {% else %}
+                        <p style="color: red;"><strong>Not Submitted</strong></p>
+                    {% endif %}
                 </div>
                 <p class="mb-1 mt-2">{{ homework.description }}</p>
                 <p class="mb-1"><strong>Percentage of Grade: </strong>{{ homework.percentage_of_grade }}%</p>
@@ -40,6 +42,8 @@
                 <p class="mb-1 text-muted"><strong>Grade: </strong>{{ homework.grade_received }}</p>
                 {% endif %}
             </li>
+            <a href="{% url 'update_homework' class_record.id homework.id %}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="{% url 'delete_homework' class_record.id homework.id %}" class="btn btn-danger btn-sm">Delete</a>
             {% empty %}
             <li class="list-group-item">No homework assignments for this class.</li>
             {% endfor %}
