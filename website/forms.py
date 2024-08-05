@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Record
+from .models import Record, Homework
 
 
 class SignUpForm(UserCreationForm):
@@ -52,3 +52,18 @@ class AddRecordForm(forms.ModelForm):
     class Meta:
         model = Record
         exclude = ("user",)
+
+
+class AddHomeworkForm(forms.ModelForm):
+    title = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder":"Title", "class":"form-control"}), label="")
+    description = forms.CharField(required=True, widget=forms.Textarea(attrs={"placeholder":"Description", "class":"form-control"}), label="")
+    due_date = forms.DateField(required=True, widget=forms.DateInput(attrs={"placeholder":"Due Date", "class":"form-control"}), label="")
+    percentage_of_grade = forms.DecimalField(required=True, widget=forms.NumberInput(attrs={"placeholder":"Percentage of Grade", "class":"form-control"}), label="")
+    submission_status = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={"class":"form-check-input"}), label="Submission Status")
+    submission_date = forms.DateField(required=False, widget=forms.DateInput(attrs={"placeholder":"Submission Date", "class":"form-control"}), label="")
+    grade_received = forms.DecimalField(required=False, widget=forms.NumberInput(attrs={"placeholder":"Grade Received", "class":"form-control"}), label="")
+    attachments = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={"class":"form-control"}), label="Attachments")
+
+    class Meta:
+        model = Homework
+        fields = '__all__'

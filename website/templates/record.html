@@ -1,22 +1,54 @@
 {% extends 'base.html' %}
 {% block content %} 
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-header">
-            Professor: {{class_record.professor}}
+            Professor: {{ class_record.professor }}
         </div>
         <div class="card-body">
-        <h5 class="card-title">{{class_record.class_name}}</h5>
-        <p class="card-text"><strong>ROOM: </strong> {{class_record.classroom}}</p>
-        <p class="card-text"><strong>DAYS: </strong> {{class_record.days}}</p>
-        <p class="card-text"><strong>CREDITS: </strong> {{class_record.credits}}</p>
-        <p class="card-text"><strong>TIME: </strong>{{class_record.start_time}} - {{record.end_time}}</p>
-        <p class="card-text"><strong>SEMESTER: </strong> {{class_record.semester}}</p>
-        <p class="card-text"><strong>DESCRIPTION: </strong>{{class_record.description}}</p>
+            <h5 class="card-title">{{ class_record.class_name }}</h5>
+            <p class="card-text"><strong>ROOM: </strong> {{ class_record.classroom }}</p>
+            <p class="card-text"><strong>DAYS: </strong> {{ class_record.days }}</p>
+            <p class="card-text"><strong>CREDITS: </strong> {{ class_record.credits }}</p>
+            <p class="card-text"><strong>TIME: </strong>{{ class_record.start_time }} - {{ class_record.end_time }}</p>
+            <p class="card-text"><strong>SEMESTER: </strong> {{ class_record.semester }}</p>
+            <p class="card-text"><strong>DESCRIPTION: </strong>{{ class_record.description }}</p>
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-header">
+            Homework Assignments
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for homework in homeworks %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ homework.title }}</strong>
+                        <span class="badge badge-secondary ml-2">Due: {{ homework.due_date }}</span>
+                    </div>
+                    <span class="badge badge-{{ homework.submission_status|yesno:'success,danger' }}">
+                        {% if homework.submission_status %}Submitted{% else %}Not Submitted{% endif %}
+                    </span>
+                </div>
+                <p class="mb-1 mt-2">{{ homework.description }}</p>
+                <p class="mb-1"><strong>Percentage of Grade: </strong>{{ homework.percentage_of_grade }}%</p>
+                {% if homework.submission_date %}
+                <p class="mb-1"><strong>Submission Date: </strong>{{ homework.submission_date }}</p>
+                {% endif %}
+                {% if homework.grade_received %}
+                <p class="mb-1 text-muted"><strong>Grade: </strong>{{ homework.grade_received }}</p>
+                {% endif %}
+            </li>
+            {% empty %}
+            <li class="list-group-item">No homework assignments for this class.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
     <br>
-    <a href="#" class="btn btn-primary">Add Homework</a>
     <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
-    <a href="{% url 'delete_record' class_record.id %}" class="btn btn-primary">Remove Class</a>
-    <a href="{% url 'update_record' class_record.id %}" class="btn btn-primary">Update Class</a>
+    <a href="{% url 'delete_record' class_record.id %}" class="btn btn-danger">Remove Class</a>
+    <a href="{% url 'update_record' class_record.id %}" class="btn btn-secondary">Update Class</a>
+    <a href="{% url 'add_homework' class_record.id %}" class="btn btn-success">Add Homework</a>
 {% endblock %}

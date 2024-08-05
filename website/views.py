@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddRecordForm
-from .models import Record
+from .forms import SignUpForm, AddRecordForm, AddHomeworkForm
+from .models import Record, Homework
 
 # Create your views here.
 def home(request):
@@ -61,7 +61,8 @@ def class_record(request,pk):
      if request.user.is_authenticated:
           # Look up RECORDS 
           class_record = Record.objects.get(id=pk)
-          return render(request,'record.html',{'class_record': class_record})
+          homeworks = Homework.objects.filter(record= class_record)
+          return render(request,'record.html',{'class_record': class_record, 'homeworks': homeworks})
      else:
           messages.success(request,"You Must be Logged In To View Record")
           return redirect('home')
@@ -106,3 +107,22 @@ def update_record(request,pk):
           return redirect('home')
           
 
+def add_homework(request,record_id):
+     record = Record.objects.get(id=record_id)
+     if request.method == 'POST':
+          form = AddHomeworkForm(request.POST)
+          if form.is_valid():
+               homework = form.save(commit=False)
+               homework.record = record
+               homework.save()
+               messages.success(request,'Homework has been added to class')
+               return redirect('record',pk=record_id)
+          else:
+               messages.success(request,"Must be Logged in to add Homework")
+     else:
+          form = AddHomeworkForm()
+     
+     return render(request,'add_homework.html',{
+          'form': form,
+          'class_record': record
+     })

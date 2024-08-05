@@ -1,6 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-        <h1>IMPLEMENT ABOUT PAGE</h1>
+        <h1 class="text-center my-4">About Homework Hub</h1>
+        
+        <div class="shadow-lg p-3 mb-5 rounded-3 custom-card">
+            <h2 class="custom-header text-center">Mission</h2>
+            <p>At Homework Hub, our mission is to help students manage their academic lives more effectively. We understand the challenges of keeping track of multiple classes, assignments, and deadlines. Our app is designed to streamline this process, allowing you to focus on what really matters: learning and achieving your goals.</p>
+        </div>
+
+        <div class="shadow-lg p-3 mb-5 rounded-3 custom-card">
+            <h2 class="custom-header text-center">Features</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Organize your classes and schedules</li>
+                <li class="list-group-item">Track assignments and due dates</li>
+                <li class="list-group-item">View detailed class information</li>
+                <li class="list-group-item">Access your academic records from anywhere</li>
+            </ul>
+        </div>
+
+        <div class="shadow-lg p-3 mb-5 rounded-3 custom-card">
+            <h2 class="custom-header text-center">Background</h2>
+            <p>
+                I have worked diligently to ensure that Homework Hub meets the needs of students everywhere, providing an easy way to track homework, view class details, and stay organized. I hope you find this app helpful and enjoy using it as much as I enjoyed creating it.
+            </p>
+            <p>
+                Thank you for choosing Homework Hub, and happy studying!
+            </p>
+        </div>
+
+        <div class="shadow-lg p-3 mb-5 rounded-3 custom-card">
+            <h2 class="custom-header text-center">Contact Us</h2>
+            <p>If you have any questions, feedback, or suggestions, i'd love to hear from you! Please reach out to me at <a href="mailto:jomilojuokuwobi@gmail.com">jomilojuokuwobi@gmail.com</a>.</p>
+        </div>
     </div>
 {% endblock %}
+
+<style>
+    .custom-img {
+        height: 320px;
+        object-fit: cover; /* Ensures the image covers the area without stretching */
+    }
+    .custom-card {
+        padding: 2rem;
+        margin-bottom: 3rem;
+    }
+    .custom-header {
+        margin-top: 1rem; /* Adjust spacing above header */
+        margin-bottom: 1rem; /* Adjust spacing below header */
+    }
+</style>
